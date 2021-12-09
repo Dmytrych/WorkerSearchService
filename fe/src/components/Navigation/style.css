@@ -1,0 +1,15 @@
+.navigation {
+    display: flex;
+    height: 10%;
+    background-color: var(--primary-color);
+    align-items: center;
+}
+.navigation .link {
+    text-decoration: none;
+    color: inherit;
+}
+.navigation p {
+    color: var(--secondary-color);
+    margin: 0 50px;
+    padding: 0 10px;
+}

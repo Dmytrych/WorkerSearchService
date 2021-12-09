@@ -1,0 +1,12 @@
+.secondary-button {
+    height: 40px;
+    width: 80px;
+    border-radius: 5px;
+    border: 1px solid var(--highlight-color);
+    background-color: var(--secondary-color);
+    margin: 0 5px;
+}
+
+.secondary-button:active {
+    background-color: var(--highlight-color);
+}

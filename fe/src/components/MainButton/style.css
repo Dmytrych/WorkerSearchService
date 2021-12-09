@@ -1,0 +1,13 @@
+.main-button {
+    height: 40px;
+    width: 80px;
+    border-radius: 5px;
+    border: 1px solid var(--highlight-color);
+    background-color: var(--primary-color);
+    margin: 0 5px;
+    color: var(--secondary-color);
+}
+
+.main-button:active {
+    background-color: var(--highlight-color);
+}
