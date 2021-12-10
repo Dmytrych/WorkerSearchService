@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using WorkerSearchApp.Domain;
+using WorkerSearchApp.Domain.Repositories;
+using WorkerSearchApp.Services;
 
 namespace WorkerSearchApp
 {
@@ -29,6 +32,11 @@ namespace WorkerSearchApp
                         ValidateIssuerSigningKey = true
                     };
                 });
+
+            services.AddScoped<IDatabaseContext, SqlDbContext>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IAuthorizationService, AuthorizationService>();
+
             services.AddAuthorization();
             services.AddControllers();
         }

@@ -6,6 +6,22 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.12" />
+      <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.21" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.12" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Domain\Repositories\IUserRepository.cs">
+        <DependentUpon>UserRepository.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Services\IAuthorizationService.cs">
+        <DependentUpon>AuthorizationService.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Dto\Auth" />
     </ItemGroup>
 
 </Project>

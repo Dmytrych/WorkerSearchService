@@ -1,34 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using WorkerSearchApp.Dto;
 using WorkerSearchApp.Dto.Auth;
+using WorkerSearchApp.Services;
 
 namespace WorkerSearchApp.Controllers
 {
     [Route("[controller]")]
     public class AuthorizationApiController : Controller
     {
-        private List<LoginCredentials> people = new List<LoginCredentials>
+        private readonly IAuthorizationService authorizationService;
+
+        public AuthorizationApiController(IAuthorizationService authorizationService)
         {
-            new LoginCredentials {Login="admin@gmail.com", Password="12345", Role = "a"},
-            new LoginCredentials { Login="qwerty@gmail.com", Password="55555", Role = "a"}
-        };
-        
+            this.authorizationService = authorizationService;
+        }
+
         [HttpPost]
         [Route("login")]
-        public IActionResult Login(LoginCredentials credentials)
+        public IActionResult Login(LoginCredentialsClientDto credentials)
         {
-            var identity = GetIdentity(credentials.Login, credentials.Password);
+            var userInfo = authorizationService.Login(credentials.Login, credentials.Password);
             
-            if (identity == null)
+            if (userInfo.Identity == null || userInfo.User == null)
             {
                 return BadRequest(new { errorText = "Invalid username or password." });
             }
+
+            return GetJwtResponse(userInfo.User, userInfo.Identity);
+        }
+
+        [HttpPost]
+        [Route("register")]
+        public IActionResult Register([FromBody] RegisterCredentialsClientDto registerCredentials)
+        {
+            var userInfo =
+                authorizationService.Register(ToServerDto(registerCredentials), registerCredentials?.Password);
             
+            if (userInfo.Identity == null || userInfo.User == null)
+            {
+                return BadRequest(new { errorText = "Invalid input." });
+            }
+            
+            return GetJwtResponse(userInfo.User, userInfo.Identity);
+        }
+
+        private IActionResult GetJwtResponse(User user, ClaimsIdentity identity)
+        {
             var now = DateTime.Now;
 
             var jwt = new JwtSecurityToken(
@@ -43,35 +64,26 @@ namespace WorkerSearchApp.Controllers
  
             var response = new
             {
-                access_token = encodedJwt,
-                username = identity.Name
+                accessToken = encodedJwt,
+                user = user
             };
  
             return Json(response);
         }
+
+        private User ToServerDto(RegisterCredentialsClientDto credentialsClientDto)
+            => new User
+            {
+                Email = credentialsClientDto?.Email,
+                Name = credentialsClientDto?.Name,
+                Surname = credentialsClientDto?.Surname
+            };
         
         [HttpGet]
         [Route("")]
         public IActionResult Test()
         {
             return Ok("Hello");
-        }
-        
-        private ClaimsIdentity GetIdentity(string username, string password)
-        {
-            var person = people.FirstOrDefault(x => x.Login == username && x.Password == password);
-            if (person != null)
-            {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role)
-                };
-                
-                return new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            }
-
-            return null;
         }
     }
 }

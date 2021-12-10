@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\1\\RiderProjects\\WorkerSearchApp\\WorkerSearchApp\\WorkerSearchApp.csproj": {}
+    "C:\\Users\\1\\RiderProjects\\WorkerSearchService\\WorkerSearchApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\1\\RiderProjects\\WorkerSearchApp\\WorkerSearchApp\\WorkerSearchApp.csproj": {
+    "C:\\Users\\1\\RiderProjects\\WorkerSearchService\\WorkerSearchApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\1\\RiderProjects\\WorkerSearchApp\\WorkerSearchApp\\WorkerSearchApp.csproj",
+        "projectUniqueName": "C:\\Users\\1\\RiderProjects\\WorkerSearchService\\WorkerSearchApp.csproj",
         "projectName": "WorkerSearchApp",
-        "projectPath": "C:\\Users\\1\\RiderProjects\\WorkerSearchApp\\WorkerSearchApp\\WorkerSearchApp.csproj",
+        "projectPath": "C:\\Users\\1\\RiderProjects\\WorkerSearchService\\WorkerSearchApp.csproj",
         "packagesPath": "C:\\Users\\1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\1\\RiderProjects\\WorkerSearchApp\\WorkerSearchApp\\obj\\",
+        "outputPath": "C:\\Users\\1\\RiderProjects\\WorkerSearchService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet",
@@ -46,6 +46,18 @@
           "targetAlias": "net5.0",
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[5.0.12, )"
+            },
+            "Microsoft.AspNetCore.SpaServices": {
+              "target": "Package",
+              "version": "[3.1.21, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[5.0.12, )"
             }

@@ -1,11 +1,9 @@
 ﻿namespace WorkerSearchApp.Dto.Auth
 {
-    public class LoginCredentials
+    public class LoginCredentialsClientDto
     {
         public string Login { get; set; }
         
         public string Password { get; set; }
-        
-        public string Role { get; set; }
     }
 }
