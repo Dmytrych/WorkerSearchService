@@ -11,5 +11,7 @@
         public string PasswordHash { get; set; }
 
         public string Email { get; set; }
+        
+        public double Rating { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace WorkerSearchApp.Domain.Dto
 {
-    public class WorkTypeEntity
+    public class CategoryEntity
     {
         public int Id { get; set; }
         

@@ -11,10 +11,12 @@ namespace WorkerSearchApp.Domain.Dto
         public int WorkTypeId { get; set; }
 
         [ForeignKey("WorkTypeId")]
-        public WorkTypeEntity WorkType { get; set; }
+        public CategoryEntity Category { get; set; }
 
         public string Description { get; set; }
 
         public string PhoneNumber { get; set; }
+        
+        public bool Closed { get; set; }
     }
 }
