@@ -57,6 +57,7 @@ namespace WorkerSearchApp.Domain.Repositories
 
             foundTicket.Closed = true;
             dbContext.Tickets.Update(foundTicket);
+            dbContext.SaveChanges();
 
             return ToServerDto(foundTicket);
         }
