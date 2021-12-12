@@ -9,5 +9,9 @@
         public string Surname { get; set; }
 
         public string Email { get; set; }
+        
+        public double Rating { get; set; }
+        
+        public int Rated { get; set; }
     }
 }

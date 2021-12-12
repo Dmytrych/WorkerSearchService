@@ -28,9 +28,26 @@ namespace WorkerSearchApp.Services
                 return (null, null);
             }
 
+            user.Rating = 5.0;
+
             var registeredUser = userRepository.AddUser(user, password.GetHashCode().ToString());
             return user == null ? (null, null) : (registeredUser, GetIdentity(registeredUser));
         }
+
+        public void Rate(int rating, int userId)
+        {
+            var user = userRepository.GetUser(userId);
+
+            if (user == null)
+            {
+                return;
+            }
+            
+            userRepository.UpdateRating(RecalculateRating(rating, user), userId);
+        }
+
+        private double RecalculateRating(int rating, User user)
+            => (user.Rating * user.Rated + rating) / (user.Rated + 1);
 
         private bool IsUserValid(User user, string password)
             => !IsNullOrEmptyOrWhitespace(user.Name)

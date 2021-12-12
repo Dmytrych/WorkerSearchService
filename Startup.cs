@@ -36,6 +36,10 @@ namespace WorkerSearchApp
             services.AddScoped<IDatabaseContext, SqlDbContext>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IAuthorizationService, AuthorizationService>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<ITicketsRepository, TicketsRepository>();
+            services.AddTransient<ITicketsService, TicketsService>();
 
             services.AddAuthorization();
             services.AddControllers();

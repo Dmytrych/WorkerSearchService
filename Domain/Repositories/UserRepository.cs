@@ -39,13 +39,30 @@ namespace WorkerSearchApp.Domain.Repositories
             return result != null ? ToServerDto(result.Entity) : null;
         }
 
+        public void UpdateRating(double rating, int userId)
+        {
+            var user = databaseContext.Users.FirstOrDefault(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return;
+            }
+
+            user.Rated++;
+            user.Rating = rating;
+            databaseContext.Users.Update(user);
+            databaseContext.SaveChanges();
+        }
+
         private User ToServerDto(UserEntity user)
             => new User()
             {
                 Id = user.Id,
                 Email = user.Email,
                 Name = user.Name,
-                Surname = user.Surname
+                Surname = user.Surname,
+                Rating = user.Rating,
+                Rated = user.Rated
             };
 
         private UserEntity ToEntity(User user, string password)
@@ -54,7 +71,9 @@ namespace WorkerSearchApp.Domain.Repositories
                 Email = user.Email,
                 Name = user.Name,
                 PasswordHash = password,
-                Surname = user.Surname
+                Surname = user.Surname,
+                Rating = user.Rating,
+                Rated = user.Rated
             };
     }
 }

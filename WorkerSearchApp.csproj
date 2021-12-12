@@ -18,10 +18,18 @@
       <Compile Update="Services\IAuthorizationService.cs">
         <DependentUpon>AuthorizationService.cs</DependentUpon>
       </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Dto\Auth" />
+      <Compile Update="Domain\Repositories\ICategoryRepository.cs">
+        <DependentUpon>CategoryRepository.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Services\ICategoryService.cs">
+        <DependentUpon>CategoryService.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Domain\Repositories\ITicketsRepository.cs">
+        <DependentUpon>TicketsRepository.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Services\ITicketsService.cs">
+        <DependentUpon>TicketsService.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>

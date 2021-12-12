@@ -1,14 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace WorkerSearchApp.Domain.Dto
+﻿namespace WorkerSearchApp.Dto
 {
-    public class TicketEntity
+    public class Ticket
     {
         public int Id { get; set; }
 
         public int OwnerId { get; set; }
 
-        public int CategoryId { get; set; }
+        public int CategoryId { get; set; } 
 
         public string Description { get; set; }
 

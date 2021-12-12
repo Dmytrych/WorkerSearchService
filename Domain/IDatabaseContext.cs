@@ -13,6 +13,6 @@ namespace WorkerSearchApp.Domain
         
         DbSet<TicketEntity> Tickets { get; set; }
         
-        DbSet<WorkTypeEntity> WorkTypes { get; set; }
+        DbSet<CategoryEntity> Categories { get; set; }
     }
 }

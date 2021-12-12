@@ -1,4 +1,4 @@
-﻿namespace WorkerSearchApp.Dto.Auth
+﻿namespace WorkerSearchApp.Dto.Client.Auth
 {
     public class RegisterCredentialsClientDto
     {

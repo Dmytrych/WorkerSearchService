@@ -4,17 +4,17 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WorkerSearchApp.Dto;
-using WorkerSearchApp.Dto.Auth;
+using WorkerSearchApp.Dto.Client.Auth;
 using WorkerSearchApp.Services;
 
 namespace WorkerSearchApp.Controllers
 {
     [Route("[controller]")]
-    public class AuthorizationApiController : Controller
+    public class UserApiController : Controller
     {
         private readonly IAuthorizationService authorizationService;
 
-        public AuthorizationApiController(IAuthorizationService authorizationService)
+        public UserApiController(IAuthorizationService authorizationService)
         {
             this.authorizationService = authorizationService;
         }
@@ -24,10 +24,10 @@ namespace WorkerSearchApp.Controllers
         public IActionResult Login(LoginCredentialsClientDto credentials)
         {
             var userInfo = authorizationService.Login(credentials.Login, credentials.Password);
-            
+
             if (userInfo.Identity == null || userInfo.User == null)
             {
-                return BadRequest(new { errorText = "Invalid username or password." });
+                return BadRequest(new {errorText = "Invalid username or password."});
             }
 
             return GetJwtResponse(userInfo.User, userInfo.Identity);
@@ -39,13 +39,26 @@ namespace WorkerSearchApp.Controllers
         {
             var userInfo =
                 authorizationService.Register(ToServerDto(registerCredentials), registerCredentials?.Password);
-            
+
             if (userInfo.Identity == null || userInfo.User == null)
             {
-                return BadRequest(new { errorText = "Invalid input." });
+                return BadRequest(new {errorText = "Invalid input."});
+            }
+
+            return GetJwtResponse(userInfo.User, userInfo.Identity);
+        }
+        
+        [HttpPost]
+        [Route("rate")]
+        public IActionResult Rate(int rating, int userId)
+        {
+            if (rating < 0 || rating > 5)
+            {
+                return BadRequest("Invalid rating value");
             }
             
-            return GetJwtResponse(userInfo.User, userInfo.Identity);
+            authorizationService.Rate(rating, userId);
+            return Ok();
         }
 
         private IActionResult GetJwtResponse(User user, ClaimsIdentity identity)
@@ -58,16 +71,17 @@ namespace WorkerSearchApp.Controllers
                 notBefore: now,
                 claims: identity.Claims,
                 expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(),
+                    SecurityAlgorithms.HmacSha256));
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
- 
+
             var response = new
             {
                 accessToken = encodedJwt,
                 user = user
             };
- 
+
             return Json(response);
         }
 
@@ -78,7 +92,7 @@ namespace WorkerSearchApp.Controllers
                 Name = credentialsClientDto?.Name,
                 Surname = credentialsClientDto?.Surname
             };
-        
+
         [HttpGet]
         [Route("")]
         public IActionResult Test()

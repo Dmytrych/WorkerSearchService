@@ -5,12 +5,14 @@ namespace WorkerSearchApp.Domain.Repositories
 {
     public interface IUserRepository
     {
-        public IReadOnlyCollection<User> GetAllUsers();
+        IReadOnlyCollection<User> GetAllUsers();
         
-        public User GetUser(int id);
+        User GetUser(int id);
 
-        public User GetUser(string email, string passwordHash); 
+        User GetUser(string email, string passwordHash); 
 
-        public User AddUser(User user, string passwordHash);
+        User AddUser(User user, string passwordHash);
+
+        void UpdateRating(double rating, int userId);
     }
 }
