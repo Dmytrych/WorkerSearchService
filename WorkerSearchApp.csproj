@@ -30,6 +30,12 @@
       <Compile Update="Services\ITicketsService.cs">
         <DependentUpon>TicketsService.cs</DependentUpon>
       </Compile>
+      <Compile Update="Domain\Repositories\IOrdersRepository.cs">
+        <DependentUpon>OrdersRepository.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Services\IOrdersService.cs">
+        <DependentUpon>OrdersService.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>

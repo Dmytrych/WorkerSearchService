@@ -12,5 +12,7 @@ namespace WorkerSearchApp.Domain.Repositories
         Ticket Add(Ticket ticket);
 
         Ticket Close(int ticketId);
+
+        Ticket Get(int ticketId);
     }
 }

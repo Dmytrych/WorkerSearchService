@@ -40,6 +40,8 @@ namespace WorkerSearchApp
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<ITicketsRepository, TicketsRepository>();
             services.AddTransient<ITicketsService, TicketsService>();
+            services.AddTransient<IOrdersRepository, OrdersRepository>();
+            services.AddTransient<IOrdersService, OrdersService>();
 
             services.AddAuthorization();
             services.AddControllers();

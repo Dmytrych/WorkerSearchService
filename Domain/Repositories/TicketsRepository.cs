@@ -14,6 +14,12 @@ namespace WorkerSearchApp.Domain.Repositories
             this.dbContext = dbContext;
         }
 
+        public Ticket Get(int ticketId)
+        {
+            var ticket = dbContext.Tickets.FirstOrDefault(t => t.Id == ticketId);
+            return ticket != null ? ToServerDto(ticket) : null;
+        }
+
         public IReadOnlyCollection<Ticket> GetNotClosed(int categoryId)
             => dbContext.Tickets
                 .Where(t => t.CategoryId == categoryId && !t.Closed)

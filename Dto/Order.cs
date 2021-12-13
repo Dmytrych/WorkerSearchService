@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace WorkerSearchApp.Domain.Dto
+﻿namespace WorkerSearchApp.Dto
 {
-    public class OrderEntity
+    public class Order
     {
         public int Id { get; set; }
 
