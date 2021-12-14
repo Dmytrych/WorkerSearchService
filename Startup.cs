@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using WorkerSearchApp.Domain;
+using WorkerSearchApp.Domain.Repositories;
+using WorkerSearchApp.Services;
 
 namespace WorkerSearchApp
 {
@@ -29,8 +32,20 @@ namespace WorkerSearchApp
                         ValidateIssuerSigningKey = true
                     };
                 });
+
+            services.AddScoped<IDatabaseContext, SqlDbContext>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IAuthorizationService, AuthorizationService>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<ITicketsRepository, TicketsRepository>();
+            services.AddTransient<ITicketsService, TicketsService>();
+            services.AddTransient<IOrdersRepository, OrdersRepository>();
+            services.AddTransient<IOrdersService, OrdersService>();
+
             services.AddAuthorization();
             services.AddControllers();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +63,8 @@ namespace WorkerSearchApp
 
             app.UseAuthentication();
             app.UseAuthorization();
+            
+            app.UseCors(builder => builder.AllowAnyOrigin());
             
             app.UseCookiePolicy(new CookiePolicyOptions
             {
