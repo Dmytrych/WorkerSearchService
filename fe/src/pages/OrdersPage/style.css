@@ -1,0 +1,11 @@
+.disabled-card .card-container {
+    border: 1px solid var(--disabled-color);
+}
+
+.disabled-card .card-label-point {
+    background-color: var(--disabled-color);
+}
+
+.disabled-card .card-title, .disabled-card .card-subtitle, .disabled-card p {
+    color: var(--disabled-color);
+}

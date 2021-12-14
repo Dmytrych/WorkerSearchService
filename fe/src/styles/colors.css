@@ -1,5 +1,6 @@
 :root {
-    --primary-color: green;
-    --secondary-color: red;
-    --highlight-color: blue;
+    --primary-color: black;
+    --secondary-color: white;
+    --highlight-color: lightgrey;
+    --disabled-color: grey;
 }

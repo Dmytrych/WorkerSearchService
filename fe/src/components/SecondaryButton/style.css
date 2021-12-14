@@ -1,6 +1,6 @@
 .secondary-button {
     height: 40px;
-    width: 80px;
+    min-width: 80px;
     border-radius: 5px;
     border: 1px solid var(--highlight-color);
     background-color: var(--secondary-color);

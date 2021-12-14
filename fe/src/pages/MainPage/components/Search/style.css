@@ -1,35 +1,3 @@
-.search-root {
-    height: 50%;
-    background-color: var(--primary-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.search-title {
-    color: var(--secondary-color);
-    font-size: 50px;
-    text-align: center;
-    margin: 50px;
-}
-
 .search-input-container {
     display: flex;
-}
-
-.search-input {
-    width: 300px;
-    height: 40px;
-    border-radius: 5px;
-    padding: 0 15px;
-    border: none;
-    margin: 0 5px;
-}
-
-.search-tips button {
-    margin: 10px 5px;
-    height: 35px;
-    width: 80px;
-    border-radius: 15px;
 }

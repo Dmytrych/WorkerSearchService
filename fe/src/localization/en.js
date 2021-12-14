@@ -9,8 +9,14 @@ export const en = {
     mainPageTitle: 'Find any specialist online',
     searchPlaceholder: 'Who are you looking for?',
     find: 'Find',
-    plumber: 'Plumber',
-    cleaner: 'Cleaner',
-    electrician: 'Electrician',
+    plumbing: 'Plumbing',
+    cleaning: 'Cleaning',
+    cooking: 'Cooking',
+    order: 'Order',
+    showPhoneNumber: 'Show phone number',
+    price: 'Price (per hour)',
+    viewDetails: 'View Details',
+    ordersList: 'Check your orders',
+    removeOrder: 'Remove order',
 };
 

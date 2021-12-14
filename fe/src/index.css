@@ -8,7 +8,7 @@ html, body, #root {
     height: 100%;
 }
 
-h1, p {
+h1, h3, h5, p {
     margin: 0;
 }
 

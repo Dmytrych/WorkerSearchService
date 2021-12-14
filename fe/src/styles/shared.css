@@ -1,0 +1,31 @@
+.flex-container-row {
+    display: flex;
+}
+
+.main-axis-center {
+    justify-content: center;
+}
+
+.cross-axis-center {
+    align-items: center;
+}
+
+.main-axis-end {
+    justify-content: flex-end;
+}
+
+.flex-container-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.page-height {
+    height: 80%;
+}
+
+.list-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 0 30px;
+}

@@ -1,0 +1,19 @@
+.search-root {
+    height: 50%;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.search-title {
+    color: var(--secondary-color);
+    font-size: 50px;
+    text-align: center;
+    margin: 50px;
+}
+
+.main-page-content-container {
+    margin: 30px;
+}

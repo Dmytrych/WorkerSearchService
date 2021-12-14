@@ -9,6 +9,7 @@ import OrdersPage from 'pages/OrdersPage';
 
 import './index.css';
 import './styles/colors.css';
+import './styles/shared.css';
 
 function App() {
   return (

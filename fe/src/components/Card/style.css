@@ -1,0 +1,28 @@
+.card-container {
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-label {
+    width: 100px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+    background-color: var(--highlight-color);
+}
+
+.card-label-point {
+    height: 5px;
+    width: 5px;
+    background-color: var(--primary-color);
+    border-radius: 5px;
+}
+
+.card-button-container {
+    display: flex;
+    justify-content: flex-end;
+}
