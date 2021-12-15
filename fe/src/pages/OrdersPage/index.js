@@ -51,8 +51,9 @@ function OrdersPage() {
               subtitle={`${texts.price} ${order.price}$`}
               label={order.filter}
               desctiption={order.desctiption}
-              mainButtonTitle={!order.isClosed && texts.removeOrder}
-              onMainButtonClick={() => onRemoveOrderClick(order.id)}
+              disabled={order.isClosed}
+              secondaryButtonTitle={order.isClosed ? texts.closed : texts.removeOrder}
+              onSecondaryButtonClick={() => onRemoveOrderClick(order.id)}
             />
           </div>
         )}

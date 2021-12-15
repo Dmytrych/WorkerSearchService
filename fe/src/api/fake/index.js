@@ -6,7 +6,8 @@ export const getFilterTips = () => {
 };
 
 export const getWorkers = filter => {
-    return delay(workers.filter(value => value.filter === filter));
+    const result = filter ? workers.filter(value => value.filter === filter) : workers;
+    return delay(result);
 };
 
 export const getWorker = id => {
@@ -19,4 +20,12 @@ export const getOrders = () => {
 
 export const removeOrder = id => {
     return delay(orders.filter(value => value.id !== id));
+};
+
+export const login = (email, password) => {
+    return delay({ email, password });
+};
+
+export const register = (name, email, password) => {
+    return delay();
 };

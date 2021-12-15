@@ -6,7 +6,7 @@ import { noop } from 'utils';
 
 import './style.css';
 
-function SmallCard({ title, subtitle, label, desctiption, mainButtonTitle, onMainButtonClick = noop, secondaryButtonTitle, onSecondaryButtonClick = noop }) {
+function SmallCard({ title, subtitle, label, desctiption, disabled, mainButtonTitle, onMainButtonClick = noop, secondaryButtonTitle, onSecondaryButtonClick = noop }) {
     return (
         <div className='card-container , card-container-small'>
             <h3 className="card-title">{title}</h3>
@@ -22,7 +22,7 @@ function SmallCard({ title, subtitle, label, desctiption, mainButtonTitle, onMai
             <p className='card-desctiption-small'>{desctiption}</p>
             <Spacer size={15} />
             <div className="flex-container-row main-axis-end">
-                {secondaryButtonTitle && <SecondaryButton placeholder={secondaryButtonTitle} onClick={onSecondaryButtonClick} />}
+                {secondaryButtonTitle && <SecondaryButton placeholder={secondaryButtonTitle} onClick={onSecondaryButtonClick} disabled={disabled} />}
                 {mainButtonTitle && <MainButton placeholder={mainButtonTitle} onClick={onMainButtonClick} />}
             </div>
         </div>

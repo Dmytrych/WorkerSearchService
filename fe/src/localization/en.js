@@ -18,5 +18,17 @@ export const en = {
     viewDetails: 'View Details',
     ordersList: 'Check your orders',
     removeOrder: 'Remove order',
+    closed: 'Order is closed',
+    password: 'Password',
+    signInSuccess: 'Signed in successfully',
+    signInError: 'Password or email is incorrect',
+    findWorker: 'Find worker',
+    register: 'Register',
+    signOut: 'Sign out',
+    registerHeader: 'Register to WorkerSearch',
+    registerSuccess: 'Registered successfully',
+    namePlaceholder: 'Name',
+    reenterPassword: 'Reenter password',
+    passwordDontMatch: "Password doesn't match",
 };
 
