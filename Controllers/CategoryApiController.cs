@@ -14,6 +14,14 @@ namespace WorkerSearchApp.Controllers
         }
         
         [HttpGet]
+        [Route("get")]
+        public IActionResult Get(int categoryId)
+        {
+            var category = categoryService.Get(categoryId);
+            return category != null ? Ok(category) : BadRequest("Category does not exist");
+        }
+        
+        [HttpGet]
         [Route("get-all")]
         public IActionResult GetAll()
         {

@@ -11,9 +11,9 @@ namespace WorkerSearchApp.Domain
             Database.EnsureCreated();
             if (!Categories.Any())
             {
-                Categories.Add(new CategoryEntity {Name = "Перевозки"});
-                Categories.Add(new CategoryEntity {Name = "Домашні послуги"});
-                Categories.Add(new CategoryEntity {Name = "Копірайт"});
+                Categories.Add(new CategoryEntity {Name = "Plumbing"});
+                Categories.Add(new CategoryEntity {Name = "Cleaning"});
+                Categories.Add(new CategoryEntity {Name = "Cooking"});
                 SaveChanges();
             }
         }
@@ -22,7 +22,7 @@ namespace WorkerSearchApp.Domain
         {
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseSqlServer(
-                "Data Source=DESKTOP-4FGGBK0\\MSSQLSERVER01;Initial Catalog=WorkerSearchApp;Integrated Security=True;");
+                "Data Source=DESKTOP-B69V4OT;Initial Catalog=WorkerSearchApp;Integrated Security=True;");
         }
 
         public DbSet<OrderEntity> Orders { get; set; }

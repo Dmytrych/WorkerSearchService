@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WorkerSearchApp.Dto;
+using WorkerSearchApp.Dto.Client;
 using WorkerSearchApp.Services;
 
 namespace WorkerSearchApp.Controllers
@@ -13,9 +13,23 @@ namespace WorkerSearchApp.Controllers
         {
             this.ticketsService = ticketsService;
         }
-
+        
         [HttpGet]
         [Route("get")]
+        public IActionResult Get(int ticketId)
+        {
+            if (ticketId <= 0)
+            {
+                return BadRequest("Invalid ticket id");
+            }
+
+            var result = ticketsService.Get(ticketId);
+
+            return result != null ? Ok(result) : BadRequest("The ticket was not found");
+        }
+
+        [HttpGet]
+        [Route("get-all")]
         public IActionResult GetNotClosed(int categoryId)
         {
             if (categoryId <= 0)
@@ -28,7 +42,7 @@ namespace WorkerSearchApp.Controllers
         
         [HttpGet]
         [Route("get-user-tickets")]
-        public IActionResult GetAll(int userId)
+        public IActionResult GetUserTickets(int userId)
         {
             if (userId <= 0)
             {
@@ -40,7 +54,7 @@ namespace WorkerSearchApp.Controllers
         
         [HttpPost]
         [Route("add")]
-        public IActionResult Add([FromBody] Ticket ticket)
+        public IActionResult Add([FromBody] TicketInfoRequestDto ticket)
         {
             var addedTicket = ticketsService.Add(ticket);
 

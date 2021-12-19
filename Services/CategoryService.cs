@@ -13,6 +13,9 @@ namespace WorkerSearchApp.Services
             this.categoryRepository = categoryRepository;
         }
         
+        public Category Get(int categoryId)
+            => categoryRepository.Get(categoryId);
+        
         public IReadOnlyCollection<Category> GetAll()
         {
             var categories = categoryRepository.GetAll();

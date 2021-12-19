@@ -60,6 +60,15 @@ namespace WorkerSearchApp.Controllers
             authorizationService.Rate(rating, userId);
             return Ok();
         }
+        
+        [HttpPost]
+        [Route("get-user")]
+        public IActionResult GetUser(int userId)
+        {
+            var user = authorizationService.Get(userId);
+
+            return user != null ? Ok(user) : BadRequest("User does not exist");
+        }
 
         private IActionResult GetJwtResponse(User user, ClaimsIdentity identity)
         {

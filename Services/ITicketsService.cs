@@ -6,11 +6,13 @@ namespace WorkerSearchApp.Services
 {
     public interface ITicketsService
     {
+        TicketInfoResponseDto Get(int ticketId);
+
         IReadOnlyCollection<TicketInfoResponseDto> GetNotClosed(int categoryId);
 
         IReadOnlyCollection<TicketInfoResponseDto> GetAll(int userId);
 
-        TicketInfoResponseDto Add(Ticket ticket);
+        TicketInfoResponseDto Add(TicketInfoRequestDto ticket);
 
         TicketInfoResponseDto Close(int ticketId);
     }
