@@ -11,7 +11,7 @@ import Spacer from 'components/Spacer';
 function Navigation() {
     const [ user, setUser ] = useContext(UserContext);
     const [ theme, setLight, setDark ] = useContext(ThemeContext);
-    //console.log(theme === THEMES.DARK)
+
     return (
         <nav className="navigation">
             <div className="flex-container-row">

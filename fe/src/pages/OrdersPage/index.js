@@ -102,6 +102,7 @@ function OrdersPage() {
           </div>
         )}
       </div>
+      <Spacer size={30} />
     </>
   );
   }
