@@ -96,6 +96,7 @@ function AuthPage() {
 
         const user = await login(email, password);
         setUser(user);
+        localStorage.setItem('token', user);
 
         setAsyncState(loading(false));
         setAsyncState(success(texts.signInSuccess));

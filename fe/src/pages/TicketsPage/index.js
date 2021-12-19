@@ -55,7 +55,7 @@ function TicketsPage() {
                 setAddTicketAsyncState(loading(true));
                 
                 await addTicket({ userId: user.id, name, price, category, descriprion });
-                const tickets = await getTickets();
+                const tickets = await getTickets(user.id);
 
                 setTickets(tickets);
                 setTicketsAsyncState(loading(false));
