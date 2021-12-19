@@ -120,7 +120,7 @@ export const recievedOrders = [
 
 export const tickets = [
     {
-        id: '1',
+        id: '4',
         name: 'Canalization cleaning',
         price: '11.5',
         rating: 3,

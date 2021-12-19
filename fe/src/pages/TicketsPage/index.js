@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from "react-router";
 
 import { getTickets, addTicket, getCategories } from 'api';
 import { getDefaultAsyncState, init, loading, success } from 'utils';
@@ -17,6 +18,7 @@ function TicketsPage() {
     const [ ticketsAsyncState, setTicketsAsyncState ] = useState(getDefaultAsyncState());
     const [ addTicketAsyncState, setAddTicketAsyncState ] = useState(getDefaultAsyncState());
     const [ user ] = useContext(UserContext);
+    const navigate = useNavigate();
 
     const [ price, setPrice ] = useState('');
     const [ category, setCategory ] = useState('');
@@ -29,6 +31,7 @@ function TicketsPage() {
         setCategory('');
         setDescriprion('');
     };
+    const onCardViewDetailsClick = ticketId => navigate(`/ticket/${ticketId}`);
 
     useEffect(() => {
         async function fetchData() {
@@ -100,6 +103,8 @@ function TicketsPage() {
                     subtitle={`${texts.price} ${ticket.price}$`}
                     label={texts[ticket.category.name]}
                     desctiption={ticket.desctiption}
+                    mainButtonTitle={texts.viewDetails}
+                    onMainButtonClick={() => onCardViewDetailsClick(ticket.id)}
                 />
             )
         }
