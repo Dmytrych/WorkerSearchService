@@ -1,4 +1,4 @@
-import { categories, workers, createdOrders, recievedOrders, tickets } from './data';
+import { categories, workers, createdOrders, recievedOrders, tickets, users } from './data';
 import { delay } from './utils';
 
 export const getCategories = () => {
@@ -49,3 +49,19 @@ export const addTicket = ({ userId, price, category, descriprion }) => {
 export const updateRating = ({ id, rating }) => {
     return delay({ id, rating });
 };
+
+export const getUser = ({ id }) => {
+    return delay(users.find(user => user.id === id ));
+};
+
+export const getRecievedOrdersWithUsers = (async () => {
+    const recievedOrders = await getRecievedOrders();
+    const recievedOrdersWithUsers = await Promise.all(recievedOrders.map(async order => {
+        const user = await getUser({ id: order.orderedById });
+        return {
+            ...order,
+            userName: user.name,
+        }
+    }));
+    return recievedOrdersWithUsers;
+});

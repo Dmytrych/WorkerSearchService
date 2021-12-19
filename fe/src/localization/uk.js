@@ -11,7 +11,7 @@ export const uk = {
     find: 'Знайти',
     plumbing: 'Сантехніка',
     cleaning: 'Прибирання',
-    cooking: 'Приготування їжі',
+    equipmentRepair: 'Ремонт техніки',
     order: 'Замовити',
     showPhoneNumber: 'Показати номер телефону',
     price: 'Ціна (за годину)',
@@ -48,4 +48,5 @@ export const uk = {
     createdOrders: 'Створені замовлення',
     recievedOrders: 'Отримані замовлення',
     closeOrder: 'Завершити замовлення',
+    orderedBy: 'Замовник',
 }

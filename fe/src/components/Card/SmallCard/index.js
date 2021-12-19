@@ -31,7 +31,7 @@ function SmallCard({ id, title, subtitle, label, rating, isRatingDisabled, onRat
             <Spacer size={15} />
             <div className="flex-container-row main-axis-end">
                 {secondaryButtonTitle && <SecondaryButton placeholder={secondaryButtonTitle} onClick={onSecondaryButtonClick} disabled={disabled} />}
-                {mainButtonTitle && <MainButton placeholder={mainButtonTitle} onClick={onMainButtonClick} />}
+                {mainButtonTitle && <MainButton placeholder={mainButtonTitle} onClick={onMainButtonClick} disabled={disabled} />}
             </div>
         </div>
     );

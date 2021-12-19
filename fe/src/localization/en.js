@@ -11,7 +11,7 @@ export const en = {
     find: 'Find',
     plumbing: 'Plumbing',
     cleaning: 'Cleaning',
-    cooking: 'Cooking',
+    equipmentRepair: 'Equipment repair',
     order: 'Order',
     showPhoneNumber: 'Show phone number',
     price: 'Price (per hour)',
@@ -48,4 +48,5 @@ export const en = {
     createdOrders: 'Created orders',
     recievedOrders: 'Recieved orders',
     closeOrder: 'Close order',
+    orderedBy: 'Orderd by',
 }

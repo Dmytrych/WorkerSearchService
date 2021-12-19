@@ -8,7 +8,6 @@ import { getWords, isStringContainSomeKey } from 'utils';
 import Card from 'components/Card';
 import Loader from 'components/Loader';
 import Spacer from 'components/Spacer';
-import Rating from 'components/Rating';
 
 import Search from './components/Search';
 import Filter from './components/Filter';
@@ -47,7 +46,6 @@ function MainPage() {
         const isStringContainTargetKeys = isStringContainSomeKey(targetKeys);
         const filteredWorkers = workers.filter(worker => isStringContainTargetKeys(worker.desctiption));
         setWorkers(targetKeys.length ? filteredWorkers : workers);
-        setWorkers(workers);
         setIsWorkersLoading(false);
       }
       fetchData();

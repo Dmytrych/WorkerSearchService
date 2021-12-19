@@ -10,6 +10,8 @@ import Spacer from 'components/Spacer';
 import Banner from 'components/Banner';
 
 function CreateTicketForm({ 
+    name,
+    onNameChange = noop,
     price, 
     onPriceChange = noop, 
     category,
@@ -30,6 +32,11 @@ function CreateTicketForm({
             </div>
             <h2>{texts.createTicket}</h2>
             <Spacer size={30} />
+            <TextInput 
+                placeholder={texts.namePlaceholder}
+                value={name}
+                onChange={onNameChange}
+            />
             <TextInput 
                 placeholder={texts.priceWithCurrency}
                 value={price}

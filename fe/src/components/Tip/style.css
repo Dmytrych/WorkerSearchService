@@ -1,7 +1,7 @@
 .tip {
     margin: 10px 5px;
     height: 35px;
-    width: 80px;
+    min-width: 80px;
     border-radius: 15px;
 }
 

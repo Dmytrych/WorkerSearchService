@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router";
 
 import Card from 'components/Card';
 import Spacer from 'components/Spacer';
 import Loader from 'components/Loader';
 import texts from 'localization';
 import { SMALL_SIZE } from 'constants/index';
-import { getCreatedOrders, getRecievedOrders, removeOrder, closeOrder } from 'api';
+import { getCreatedOrders, getRecievedOrdersWithUsers, removeOrder, closeOrder } from 'api';
 
 import './style.css';
 
@@ -15,12 +16,13 @@ function OrdersPage() {
   const [ isOrdersLoading, setIsOrdersLoading ] = useState(false);
   const [ orderToRemove, setOrderToRemove ] = useState('');
   const [ orderToClose, setOrderToClose ] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
       setIsOrdersLoading(true);
       const createdOrders = await getCreatedOrders();
-      const recievedOrders = await getRecievedOrders();
+      const recievedOrders = await getRecievedOrdersWithUsers();
       setCreatedOrders(createdOrders);
       setRecievedOrders(recievedOrders);
       setIsOrdersLoading(false);
@@ -54,6 +56,7 @@ function OrdersPage() {
 
   const onRemoveOrderClick = id => setOrderToRemove(id);
   const onCloseOrderClick = id => setOrderToClose(id);
+  const onCardViewDetailsClick = ticketId => navigate(`/ticket/${ticketId}`);
 
   const SmallCard = Card(SMALL_SIZE);
 
@@ -77,6 +80,8 @@ function OrdersPage() {
               disabled={order.isClosed}
               secondaryButtonTitle={order.isClosed ? texts.closed : texts.removeOrder}
               onSecondaryButtonClick={() => onRemoveOrderClick(order.id)}
+              mainButtonTitle={!order.isClosed && texts.viewDetails}
+              onMainButtonClick={() => onCardViewDetailsClick(order.ticketId)}
             />
           </div>
         )}
@@ -92,12 +97,14 @@ function OrdersPage() {
             <SmallCard
               key={order.id}
               title={order.name}
-              subtitle={`${texts.price} ${order.price}$`}
+              subtitle={`${texts.orderedBy} ${order.userName} ${order.phoneNumber}`}
               label={order.category?.name}
               desctiption={order.desctiption}
               disabled={order.isClosed}
               secondaryButtonTitle={order.isClosed ? texts.closed : texts.closeOrder}
               onSecondaryButtonClick={() => onCloseOrderClick(order.id)}
+              mainButtonTitle={!order.isClosed && texts.viewDetails}
+              onMainButtonClick={() => onCardViewDetailsClick(order.ticketId)}
             />
           </div>
         )}

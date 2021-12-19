@@ -12,6 +12,7 @@ import CreateTicketForm from './CreateTicketForm';
 
 function TicketsPage() {
     const [ tickets, setTickets ] = useState([]);
+    const [ name, setName ] = useState([]);
     const [ categories, setCategories ] = useState([]);
     const [ ticketsAsyncState, setTicketsAsyncState ] = useState(getDefaultAsyncState());
     const [ addTicketAsyncState, setAddTicketAsyncState ] = useState(getDefaultAsyncState());
@@ -50,7 +51,7 @@ function TicketsPage() {
                 setTicketsAsyncState(loading(true));
                 setAddTicketAsyncState(loading(true));
                 
-                await addTicket({ userId: user.id, price, category, descriprion });
+                await addTicket({ userId: user.id, name, price, category, descriprion });
                 const tickets = await getTickets();
 
                 setTickets(tickets);
@@ -70,6 +71,8 @@ function TicketsPage() {
         <Spacer size={30} />
         <div className="flex-container-column cross-axis-center">
             <CreateTicketForm 
+                name={name}
+                onNameChange={setName}
                 price={price}
                 onPriceChange={setPrice} 
                 category={category}
