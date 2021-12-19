@@ -16,6 +16,12 @@ namespace WorkerSearchApp.Domain.Repositories
             this.ticketsRepository = ticketsRepository;
         }
         
+        public Order Get(int orderId)
+        {
+            var order = dbContext.Orders.FirstOrDefault(o => o.Id == orderId);
+            return order != null ? ToServerDto(order) : null;
+        }
+        
         public IReadOnlyCollection<Order> GetAssignedOrders(int userId)
         {
             var userOrders = dbContext.Orders.ToList().Where(o =>
@@ -69,7 +75,9 @@ namespace WorkerSearchApp.Domain.Repositories
                 Id = orderEntity.Id,
                 OrderedById = orderEntity.OrderedById,
                 TicketId = orderEntity.TicketId,
-                Closed = orderEntity.Closed
+                Closed = orderEntity.Closed,
+                Name = orderEntity.Name,
+                PhoneNumber = orderEntity.PhoneNumber
             };
         
         private OrderEntity ToEntity(Order order)
@@ -77,7 +85,9 @@ namespace WorkerSearchApp.Domain.Repositories
             {
                 OrderedById = order.OrderedById,
                 TicketId = order.TicketId,
-                Closed = order.Closed
+                Closed = order.Closed,
+                Name = order.Name,
+                PhoneNumber = order.PhoneNumber
             };
     }
 }

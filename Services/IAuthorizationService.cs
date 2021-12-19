@@ -10,5 +10,7 @@ namespace WorkerSearchApp.Services
         (User User, ClaimsIdentity Identity) Register(User user, string password);
 
         void Rate(int rating, int userId);
+
+        User Get(int userId);
     }
 }

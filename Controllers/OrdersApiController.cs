@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WorkerSearchApp.Dto;
+using WorkerSearchApp.Dto.Client;
 using WorkerSearchApp.Services;
 
 namespace WorkerSearchApp.Controllers
@@ -15,6 +16,14 @@ namespace WorkerSearchApp.Controllers
         }
 
         [HttpGet]
+        [Route("get")]
+        public IActionResult Get(int orderId)
+        {
+            var order = ordersService.Get(orderId);
+            return order != null ? Ok(order) : BadRequest("Order not found");
+        }
+
+        [HttpGet]
         [Route("get-assigned")]
         public IActionResult GetAssignedOrders(int userId)
             => Ok(ordersService.GetAssignedOrders(userId));
@@ -26,9 +35,9 @@ namespace WorkerSearchApp.Controllers
 
         [HttpPost]
         [Route("add")]
-        public IActionResult Add([FromBody] Order order)
+        public IActionResult Add([FromBody] OrderInfoResponseDto order)
         {
-            if (order == null || order.TicketId <= 0 || order.Closed || order.OrderedById <= 0)
+            if (order == null || order.TicketId <= 0 || order.IsClosed || order.OrderedById <= 0)
             {
                 return BadRequest("Invalid input");
             }

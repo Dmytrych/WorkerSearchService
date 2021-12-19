@@ -18,6 +18,13 @@ namespace WorkerSearchApp.Services
             this.categoryRepository = categoryRepository;
             this.userRepository = userRepository;
         }
+        
+        public TicketInfoResponseDto Get(int ticketId)
+        {
+            var notClosedTickets = ticketsRepository.Get(ticketId);
+
+            return notClosedTickets == null ? null : ToResponseDto(notClosedTickets);
+        }
 
         public IReadOnlyCollection<TicketInfoResponseDto> GetNotClosed(int categoryId)
         {
@@ -33,17 +40,17 @@ namespace WorkerSearchApp.Services
             return !tickets.Any() ? null : ToResponseCollection(tickets);
         }
 
-        public TicketInfoResponseDto Add(Ticket ticket)
+        public TicketInfoResponseDto Add(TicketInfoRequestDto ticket)
         {
             if (string.IsNullOrEmpty(ticket.Description) 
                 || ticket.CategoryId <= 0 
                 || string.IsNullOrEmpty(ticket.PhoneNumber)
-                || ticket.OwnerId <= 0)
+                || ticket.UserId <= 0)
             {
                 return null;
             }
 
-            var addedTicket = ticketsRepository.Add(ticket);
+            var addedTicket = ticketsRepository.Add(ToServerDto(ticket));
 
             return addedTicket != null ? ToResponseDto(addedTicket) : null;
         }
@@ -66,7 +73,21 @@ namespace WorkerSearchApp.Services
                 Description = ticket.Description,
                 PhoneNumber = ticket.PhoneNumber,
                 Category = categoryRepository.Get(ticket.CategoryId),
-                Closed = ticket.Closed,
+                IsClosed = ticket.Closed,
+                Name = ticket.Name,
+                Price = ticket.Price
+            };
+        
+        private Ticket ToServerDto(TicketInfoRequestDto ticket)
+            => new Ticket
+            {
+                OwnerId = ticket.UserId,
+                Description = ticket.Description,
+                PhoneNumber = ticket.PhoneNumber,
+                CategoryId = ticket.CategoryId,
+                Closed = ticket.IsClosed,
+                Name = ticket.Name,
+                Price = ticket.Price
             };
     }
 }

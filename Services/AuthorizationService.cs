@@ -45,6 +45,9 @@ namespace WorkerSearchApp.Services
             
             userRepository.UpdateRating(RecalculateRating(rating, user), userId);
         }
+        
+        public User Get(int userId)
+            => userRepository.GetUser(userId);
 
         private double RecalculateRating(int rating, User user)
             => (user.Rating * user.Rated + rating) / (user.Rated + 1);

@@ -76,7 +76,9 @@ namespace WorkerSearchApp.Domain.Repositories
                 Closed = ticketEntity.Closed,
                 Description = ticketEntity.Description,
                 OwnerId = ticketEntity.OwnerId,
-                PhoneNumber = ticketEntity.PhoneNumber
+                PhoneNumber = ticketEntity.PhoneNumber,
+                Name = ticketEntity.Name,
+                Price = ticketEntity.Price
             };
         
         private TicketEntity ToEntity(Ticket ticket)
@@ -88,6 +90,8 @@ namespace WorkerSearchApp.Domain.Repositories
                 Description = ticket.Description,
                 OwnerId = ticket.OwnerId,
                 PhoneNumber = ticket.PhoneNumber,
+                Name = ticket.Name,
+                Price = ticket.Price
             };
     }
 }

@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
 using WorkerSearchApp.Dto;
+using WorkerSearchApp.Dto.Client;
 
 namespace WorkerSearchApp.Services
 {
     public interface IOrdersService
     {
-        IReadOnlyCollection<Order> GetAssignedOrders(int userId);
+        OrderInfoResponseDto Get(int orderId);
+        
+        IReadOnlyCollection<OrderInfoResponseDto> GetAssignedOrders(int userId);
 
-        IReadOnlyCollection<Order> GetPlacedOrders(int userId);
+        IReadOnlyCollection<OrderInfoResponseDto> GetPlacedOrders(int userId);
 
-        Order Add(Order order);
+        OrderInfoResponseDto Add(OrderInfoResponseDto order);
 
-        Order Close(int orderId);
+        OrderInfoResponseDto Close(int orderId);
     }
 }

@@ -5,6 +5,8 @@ namespace WorkerSearchApp.Domain.Repositories
 {
     public interface IOrdersRepository
     {
+        Order Get(int orderId);
+
         IReadOnlyCollection<Order> GetAssignedOrders(int userId);
 
         IReadOnlyCollection<Order> GetPlacedOrders(int userId);
