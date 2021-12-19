@@ -1,5 +1,5 @@
 import React from 'react';
-import TextInput from 'components/TextInput';
+import TextInput from 'components/Input/TextInput';
 import SecondaryButton from 'components/SecondaryButton';
 import { noop } from 'utils';
 import texts from 'localization';

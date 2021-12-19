@@ -3,44 +3,55 @@ import { useNavigate } from "react-router";
 
 import { SMALL_SIZE } from 'constants/index';
 import texts from 'localization';
+import { getCategories, getWorkers } from 'api';
+import { getWords, isStringContainSomeKey } from 'utils';
 import Card from 'components/Card';
 import Loader from 'components/Loader';
 import Spacer from 'components/Spacer';
+import Rating from 'components/Rating';
+
 import Search from './components/Search';
 import Filter from './components/Filter';
-import { getFilterTips, getWorkers } from 'api';
-import { getWords } from 'utils';
 
 import './style.css';
 
 function MainPage() {
     const [ keys, setKeys ] = useState('');
-    const [ findKeys, setFindKeys ] = useState('');
-    const [ filter, setFilter ] = useState('');
+    const [ targetKeys, setTargetKeys ] = useState([]);
+    const [ filterId, setFilterId ] = useState('');
     const navigate = useNavigate();
 
     const [ workers, setWorkers ] = useState([]);
     const [ isWorkersLoading, setIsWorkersLoading ] = useState(false);
-    const [ filterTips, setFilterTips ] = useState([]);
-    const [ isFilterTipsLoading, setIsFilterTipsLoading ] = useState(false);
+    const [ categories, setCategories ] = useState([]);
+    const [ isCategoriesLoading, setIsCategoriesLoading ] = useState(false);
 
-    const onFindClick = () => setFindKeys(getWords(keys));
-    const onTipClick = e => filter === e.target.value ? setFilter('') : setFilter(e.target.value);
-    const onCardViewDetailsClick = workerId => navigate(`/prodetails/${workerId}`);
+    const onFindClick = () => setTargetKeys(getWords(keys));
+    const onTipClick = e => filterId === e.target.value ? setFilterId('') : setFilterId(e.target.value);
+    const onCardViewDetailsClick = workerId => navigate(`/ticket/${workerId}`);
 
-    useEffect(async () => {
-      setIsFilterTipsLoading(true);
-      const filterTips = await getFilterTips();
-      setFilterTips(filterTips);
-      setIsFilterTipsLoading(false);
+    useEffect(() => {
+      async function fetchData() {
+        setIsCategoriesLoading(true);
+        const categories = await getCategories();
+        setCategories(categories);
+        setIsCategoriesLoading(false);
+      }
+      fetchData();
     }, []);
     
-    useEffect(async () => {
-      setIsWorkersLoading(true);
-      const workers = await getWorkers(filter, findKeys);
-      setWorkers(workers);
-      setIsWorkersLoading(false);
-    }, [filter, findKeys]);
+    useEffect(() => {
+      async function fetchData() {
+        setIsWorkersLoading(true);
+        const workers = await getWorkers(filterId);
+        const isStringContainTargetKeys = isStringContainSomeKey(targetKeys);
+        const filteredWorkers = workers.filter(worker => isStringContainTargetKeys(worker.desctiption));
+        setWorkers(targetKeys.length ? filteredWorkers : workers);
+        setWorkers(workers);
+        setIsWorkersLoading(false);
+      }
+      fetchData();
+    }, [filterId, targetKeys]);
 
     const SmallCard = Card(SMALL_SIZE);
 
@@ -50,8 +61,8 @@ function MainPage() {
           <h1 className="search-title">{texts.mainPageTitle}</h1>
           <div>
             <div className="flex-container-column main-axis-center search-filter" style={{height: '60px'}}>
-              {isFilterTipsLoading && <Loader />}
-              {!isFilterTipsLoading && <Filter values={filterTips} selectedValue={filter} onTipClick={onTipClick} />}
+              {isCategoriesLoading && <Loader />}
+              {!isCategoriesLoading && <Filter values={categories} selectedValueId={filterId} onTipClick={onTipClick} />}
             </div>
             <Spacer size={20} />
             <Search value={keys} onChange={setKeys} onFindClick={onFindClick} />
@@ -62,10 +73,13 @@ function MainPage() {
           <div className="list-container">
             {!isWorkersLoading && workers.map(worker => 
               <SmallCard
+                id={worker.id}
                 key={worker.id} 
                 title={worker.name}
                 subtitle={`${texts.price} ${worker.price}$`}
-                label={worker.filter}
+                rating={worker.rating}
+                isRatingDisabled={true}
+                label={texts[worker.category.name]}
                 desctiption={worker.desctiption}
                 mainButtonTitle={texts.viewDetails}
                 onMainButtonClick={() => onCardViewDetailsClick(worker.id)}

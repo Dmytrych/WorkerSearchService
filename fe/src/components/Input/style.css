@@ -8,3 +8,8 @@
     margin-bottom: 20px;
     border: 1px solid var(--highlight-color);
 }
+
+.form-textarea {
+    padding: 7px 15px;
+    height: 70px;
+}

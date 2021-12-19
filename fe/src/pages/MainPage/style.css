@@ -19,5 +19,6 @@
 }
 
 .main-page-content-container {
-   min-height: 30%;
+   min-height: 40%;
+   background-color: var(--secondary-bg-color);
 }

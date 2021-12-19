@@ -9,7 +9,7 @@ import Card from 'components/Card';
 
 import { getWorker } from 'api';
 
-function ProDetailsPage() {
+function TicketDetailsPage() {
   const [ worker, setWorker ] = useState({});
   const [ isWorkerLoading, setIsWorkerLoading ] = useState(false);
   const [ isPhoneNumberShown, setIsPhoneNumberShown ] = useState(false);
@@ -19,11 +19,14 @@ function ProDetailsPage() {
   const onOrderClick = () => navigate('/orders');
   const onPhoneNumberClick = () => setIsPhoneNumberShown(value => !value);
 
-  useEffect(async () => {
-    setIsWorkerLoading(true);
-    const worker = await getWorker(id);
-    setWorker(worker);
-    setIsWorkerLoading(false);
+  useEffect(() => {
+    async function fetchData() {
+      setIsWorkerLoading(true);
+      const worker = await getWorker(id);
+      setWorker(worker);
+      setIsWorkerLoading(false);
+    }
+    fetchData();
   }, [id]);
 
   const LargeCard = Card(LARGE_SIZE);
@@ -32,10 +35,12 @@ function ProDetailsPage() {
     <div className="flex-container-row main-axis-center cross-axis-center page-height">
       {isWorkerLoading && <Loader />}
       {!isWorkerLoading && <LargeCard 
+        id={worker.id}
         key={worker.id} 
+        rating={worker.rating}
         title={worker.name}
         subtitle={`${texts.price} ${worker.price}$`}
-        label={worker.filter}
+        label={texts[worker.category?.name]}
         desctiption={worker.desctiption}
         mainButtonTitle={texts.order}
         onMainButtonClick={onOrderClick}
@@ -46,4 +51,4 @@ function ProDetailsPage() {
   );
 }
   
-export default ProDetailsPage;
+export default TicketDetailsPage;

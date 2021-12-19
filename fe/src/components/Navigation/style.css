@@ -3,6 +3,7 @@
     height: 10%;
     background-color: var(--primary-color);
     align-items: center;
+    justify-content: space-between;
 }
 .navigation .link {
     text-decoration: none;

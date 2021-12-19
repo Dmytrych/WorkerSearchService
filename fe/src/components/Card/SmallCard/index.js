@@ -2,11 +2,13 @@ import React from 'react';
 import Spacer from 'components/Spacer';
 import MainButton from 'components/MainButton';
 import SecondaryButton from 'components/SecondaryButton';
+import Rating from 'components/Rating';
 import { noop } from 'utils';
+import { SMALL_SIZE } from 'constants/index';
 
 import './style.css';
 
-function SmallCard({ title, subtitle, label, desctiption, disabled, mainButtonTitle, onMainButtonClick = noop, secondaryButtonTitle, onSecondaryButtonClick = noop }) {
+function SmallCard({ id, title, subtitle, label, rating, isRatingDisabled, onRatingChange, desctiption, disabled, mainButtonTitle, onMainButtonClick = noop, secondaryButtonTitle, onSecondaryButtonClick = noop }) {
     return (
         <div className='card-container , card-container-small'>
             <h3 className="card-title">{title}</h3>
@@ -20,6 +22,12 @@ function SmallCard({ title, subtitle, label, desctiption, disabled, mainButtonTi
             </div>
             <Spacer size={15} />
             <p className='card-desctiption-small'>{desctiption}</p>
+            <Spacer size={15} />
+            {!!rating && 
+                <div className="flex-container-row main-axis-start">
+                    <Rating id={id} size={SMALL_SIZE} value={rating} onChange={onRatingChange} disabled={isRatingDisabled} />
+                </div>
+            }
             <Spacer size={15} />
             <div className="flex-container-row main-axis-end">
                 {secondaryButtonTitle && <SecondaryButton placeholder={secondaryButtonTitle} onClick={onSecondaryButtonClick} disabled={disabled} />}

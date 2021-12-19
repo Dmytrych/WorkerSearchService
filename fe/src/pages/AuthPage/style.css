@@ -5,8 +5,9 @@
     height: 80%;
 }
 
-.auth-form {
+.form-container {
     padding: 50px;
+    padding-top: 10px;
     width: 400px;
     min-height: 400px;
     border-radius: 5px;
@@ -15,8 +16,5 @@
     border: 1px solid var(--highlight-color);
     justify-content: center;
     align-items: center;
-}
-
-.auth-loader-container {
-    height: 70px;
+    text-align: center;
 }

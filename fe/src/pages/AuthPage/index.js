@@ -1,81 +1,109 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from "react-router";
+
+import { login, register } from 'api';
+import { getDefaultAsyncState, isEmail, init, loading, success, error } from 'utils';
+import { UserContext } from 'contexts/User';
+import texts from 'localization';
 
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
-import { login, register } from 'api';
 
 import './style.css';
 
 function AuthPage() {
   const navigate = useNavigate();
+
   const [ registerMode, setRegisterMode ] = useState(false);
+  const [ user, setUser ] = useContext(UserContext);
+  const [ asyncState, setAsyncState ] = useState(getDefaultAsyncState());
+
   const [ email, setEmail ] = useState('');
+  const [ phoneNumber, setPhoneNumber ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ name, setName ] = useState('');
   const [ reenterPassword, setReenterPassword ] = useState('');
 
-  const [ user, setUser ] = useState(null);
-
-  const [ auth, setAuth ] = useState(false);
-  const [ isLoading, setIsLoading ] = useState(false);
-  const [ isError, setIsError ] = useState(false);
-  const [ isSuccess, setIsSuccess ] = useState(false);
-
   const resetData = () => {
-    setIsSuccess(false);
-    setIsLoading(false);
-    setIsError(false);
+    setAsyncState(getDefaultAsyncState());
     setEmail('');
+    setPhoneNumber('');
     setPassword('');
     setName('');
     setReenterPassword('');
   };
+
+  const isSignInFormField = () => email && password;
+  const isRegisterFormField = () => email && phoneNumber && password && name && reenterPassword;
 
   const onSignInClick = () => {
     if(registerMode) {
       resetData();
       setRegisterMode(false);
     } else {
-      setAuth(true);
+      setAsyncState(init(true));
     }
   };
   const onFindWorkerClick = () => navigate('/');
   const onRegisterClick = () => {
     if(registerMode) {
-      setAuth(true);
+      setAsyncState(init(true));
     } else {
       resetData();
       setRegisterMode(true);
     }
   }
-  const onSignOutClick = () => resetData();
+  const onCreateTicketClick = () => navigate('/tickets');
 
-  useEffect(async () => {
-    if(auth && registerMode) {
-      if(password !== reenterPassword) {
-        setIsError(true);
-      } else {
-        setIsError(false);
-        setIsLoading(true);
-        await register(name, email, password);
-        setIsLoading(false);
-        setIsSuccess(true);
+  useEffect(() => {
+    async function fetchData() {
+      if(asyncState.init && registerMode) {
+        if(!isRegisterFormField()) {
+          setAsyncState(init(false));
+          return setAsyncState(error(texts.fillForm));
+        }
+        if(!isEmail(email)) {
+          setAsyncState(init(false));
+          return setAsyncState(error(texts.invalidEmail));
+        }
+        if(password !== reenterPassword) {
+          setAsyncState(init(false));
+          return setAsyncState(error(texts.passwordDontMatch));
+        } 
+
+        setAsyncState(error(''));
+        setAsyncState(loading(true));
+
+        await register({ name, email, phoneNumber, password });
+
+        setAsyncState(loading(false));
+        setAsyncState(success(texts.signInSuccess));
       }
-      setAuth(false);
     }
-  }, [auth]);
+    fetchData();
+  }, [asyncState.init]);
      
-  useEffect(async () => {
-    if(auth && !registerMode) {
-      setIsLoading(true);
-      const user = await login(email, password);
-      setUser(user);
-      setIsLoading(false);
-      setIsSuccess(true);
-      setAuth(false);
-    }
-  }, [auth]);
+  useEffect(() => {
+    async function fetchData() {
+      if(asyncState.init && !registerMode) {
+        if(!isSignInFormField()) {
+          setAsyncState(init(false));
+          return setAsyncState(error(texts.fillForm));
+        }
+
+        setAsyncState(error(''));
+        setAsyncState(loading(true));
+
+        const user = await login(email, password);
+        setUser(user);
+
+        setAsyncState(loading(false));
+        setAsyncState(success(texts.signInSuccess));
+        setAsyncState(init(false));
+      }
+    };
+    fetchData();
+  }, [asyncState.init]);
 
   return (
     <div className="auth-page">
@@ -87,14 +115,17 @@ function AuthPage() {
         onSignInClick={onSignInClick}
         onFindWorkerClick={onFindWorkerClick}
         onRegisterClick={onRegisterClick}
-        onSignOutClick={onSignOutClick}
-        isLoading={isLoading}
-        isSuccess={isSuccess}
+        onCreateTicketClick={onCreateTicketClick}
+        isLoading={asyncState.loading}
+        success={user && asyncState.success}
+        error={asyncState.error}
       />}
       {registerMode && 
         <RegisterForm
           email={email}
           onEmailChange={setEmail}
+          phoneNumber={phoneNumber}
+          onPhoneNumberChange={setPhoneNumber}
           password={password}
           onPasswordChange={setPassword}
           name={name}
@@ -103,10 +134,9 @@ function AuthPage() {
           onReenterPasswordChange={setReenterPassword}
           onSignInClick={onSignInClick}
           onRegisterClick={onRegisterClick}
-          onSignOutClick={onSignOutClick}
-          isLoading={isLoading}
-          isSuccess={isSuccess}
-          isError={isError}
+          isLoading={asyncState.loading}
+          success={asyncState.success}
+          error={asyncState.error}
       />}
     </div>
   );

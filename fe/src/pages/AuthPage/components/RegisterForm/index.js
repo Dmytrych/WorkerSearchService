@@ -2,15 +2,17 @@ import React from 'react';
 import { noop } from 'utils';
 import texts from 'localization';
 import MainButton from 'components/MainButton';
-import TextInput from 'components/TextInput';
+import TextInput from 'components/Input/TextInput';
 import Loader from 'components/Loader';
 import Spacer from 'components/Spacer';
 import SecondaryButton from 'components/SecondaryButton';
-import Banner from '../Banner';
+import Banner from 'components/Banner';
 
 function RegisterForm({ 
     email, 
     onEmailChange = noop, 
+    phoneNumber, 
+    onPhoneNumberChange = noop,
     password, 
     onPasswordChange = noop, 
     name, 
@@ -20,17 +22,18 @@ function RegisterForm({
     onSignInClick = noop,
     onRegisterClick = noop,
     isLoading = false, 
-    isSuccess = false,
-    isError = false,
+    success = '',
+    error = '',
 }) {
     return (
-        <div className="auth-form">
-            <h2>{texts.registerHeader}</h2>
-            <div className="auth-loader-container flex-container-column main-axis-center">
+        <div className="form-container">
+             <div className="form-loader-container flex-container-column main-axis-center">
                 {isLoading && <Loader />}
-                {!isLoading && isSuccess && <Banner placeholder={texts.registerSuccess} success />}
-                {!isLoading && isError && <Banner placeholder={texts.passwordDontMatch} error />}
+                {!isLoading && !!success && <Banner placeholder={success} success />}
+                {!isLoading && !!error && <Banner placeholder={error} error />}
             </div>
+            <h2>{texts.registerHeader}</h2>
+            <Spacer size={30} />
             <TextInput 
                 placeholder={texts.namePlaceholder}
                 value={name}
@@ -40,6 +43,11 @@ function RegisterForm({
                 placeholder={texts.emailPlaceholder}
                 value={email}
                 onChange={onEmailChange}
+            />
+            <TextInput 
+                placeholder={texts.phoneNumberPlaceholder}
+                value={phoneNumber}
+                onChange={onPhoneNumberChange}
             />
             <TextInput
                 type="password"
@@ -57,9 +65,9 @@ function RegisterForm({
             <div className="flex-container-row">
                 <MainButton 
                     disabled={isLoading}
-                    placeholder={isSuccess ? texts.signIn : texts.register} 
-                    onClick={isSuccess ? onSignInClick : onRegisterClick} />
-                {!isSuccess && <SecondaryButton 
+                    placeholder={!!success ? texts.signIn : texts.register} 
+                    onClick={!!success ? onSignInClick : onRegisterClick} />
+                {!success && <SecondaryButton 
                     disabled={isLoading}
                     placeholder={texts.signIn } 
                     onClick={onSignInClick} 

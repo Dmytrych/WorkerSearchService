@@ -1,15 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import texts from 'localization';
+import SecondaryButton from 'components/SecondaryButton';
+import { UserContext, initialState } from 'contexts/User';
+import { ThemeContext, THEMES } from 'contexts/Theme';
 
 import './style.css';
+import Spacer from 'components/Spacer';
 
 function Navigation() {
+    const [ user, setUser ] = useContext(UserContext);
+    const [ theme, setLight, setDark ] = useContext(ThemeContext);
+    //console.log(theme === THEMES.DARK)
     return (
         <nav className="navigation">
-            <Link to='/' className="link"><p>{texts.mainPage}</p></Link>
-            <Link to='/auth' className="link"><p>{texts.authpage}</p></Link>
-            <Link to='/orders' className="link"><p>{texts.orders}</p></Link>
+            <div className="flex-container-row">
+                <Link to='/' className="link"><p>{texts.mainPage}</p></Link>
+                {!user && <Link to='/auth' className="link"><p>{texts.authpage}</p></Link>}
+                <Link to='/orders' className="link"><p>{texts.orders}</p></Link>
+                <Link to='/tickets' className="link"><p>{texts.tickets}</p></Link>
+            </div>
+            <div className="flex-container-row">
+                <SecondaryButton 
+                    onClick={theme === THEMES.LIGHT ? setDark : setLight } 
+                    placeholder={theme === THEMES.LIGHT ? texts.setDarkTheme : texts.setLightTheme} 
+                />
+                {user && <SecondaryButton onClick={() => setUser(initialState)} placeholder={texts.signOut} />}
+                <Spacer size={60} isHorizontal />
+            </div>
         </nav>
     );
   }

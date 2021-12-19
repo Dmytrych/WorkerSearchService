@@ -2,11 +2,12 @@ import React from 'react';
 import Spacer from 'components/Spacer';
 import MainButton from 'components/MainButton';
 import SecondaryButton from 'components/SecondaryButton';
+import Rating from 'components/Rating';
 import { noop } from 'utils';
 
 import './style.css';
 
-function LargeCard({ title, subtitle, label, desctiption, disabled, mainButtonTitle, onMainButtonClick = noop, secondaryButtonTitle, onSecondaryButtonClick = noop }) {
+function LargeCard({ id, title, subtitle, label, rating, isRatingDisabled, onRatingChange, desctiption, disabled, mainButtonTitle, onMainButtonClick = noop, secondaryButtonTitle, onSecondaryButtonClick = noop }) {
     return (
         <div className='card-container card-container-big'>
             <h1 className="card-title">{title}</h1>
@@ -20,6 +21,12 @@ function LargeCard({ title, subtitle, label, desctiption, disabled, mainButtonTi
             </div>
             <Spacer size={15} />
             <p className='card-desctiption-big'>{desctiption}</p>
+            <Spacer size={25} />
+            {!!rating && 
+                <div className="flex-container-row main-axis-start">
+                    <Rating id={id} value={rating} onChange={onRatingChange} disabled={isRatingDisabled} />
+                </div>
+            }
             <Spacer size={25} />
             <div className="flex-container-row main-axis-end">
                 {secondaryButtonTitle && <SecondaryButton placeholder={secondaryButtonTitle} onClick={onSecondaryButtonClick} disabled={disabled} />}

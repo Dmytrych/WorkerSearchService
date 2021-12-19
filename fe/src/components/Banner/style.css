@@ -6,10 +6,10 @@
 }
 .success-banner {
     background-color: var(--success-color);
-    color: var(--primary-color);
+    color: var(--secondary-color);
 }
 
 .error-banner {
     background-color: var(--error-color);
-    color: var(--primary-color);
+    color: var(--secondary-color);
 }
