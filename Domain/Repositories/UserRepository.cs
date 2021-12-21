@@ -62,7 +62,8 @@ namespace WorkerSearchApp.Domain.Repositories
                 Name = user.Name,
                 Surname = user.Surname,
                 Rating = user.Rating,
-                Rated = user.Rated
+                Rated = user.Rated,
+                PhoneNumber = user.PhoneNumber
             };
 
         private UserEntity ToEntity(User user, string password)
@@ -73,7 +74,8 @@ namespace WorkerSearchApp.Domain.Repositories
                 PasswordHash = password,
                 Surname = user.Surname,
                 Rating = user.Rating,
-                Rated = user.Rated
+                Rated = user.Rated,
+                PhoneNumber = user.PhoneNumber
             };
     }
 }

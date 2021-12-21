@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using WorkerSearchApp.Dto.Client;
 using WorkerSearchApp.Services;
 
 namespace WorkerSearchApp.Controllers
 {
+    [EnableCors("AllowAll")]
     [Route("[controller]")]
     public class TicketsApiController : Controller
     {
@@ -14,9 +16,9 @@ namespace WorkerSearchApp.Controllers
             this.ticketsService = ticketsService;
         }
         
-        [HttpGet]
+        [HttpGet("get/{ticketId}")]
         [Route("get")]
-        public IActionResult Get(int ticketId)
+        public IActionResult Get([FromRoute] int ticketId)
         {
             if (ticketId <= 0)
             {
@@ -28,21 +30,16 @@ namespace WorkerSearchApp.Controllers
             return result != null ? Ok(result) : BadRequest("The ticket was not found");
         }
 
-        [HttpGet]
+        [HttpGet("get-all/{categoryId}")]
         [Route("get-all")]
-        public IActionResult GetNotClosed(int categoryId)
+        public IActionResult GetNotClosed([FromRoute] int? categoryId)
         {
-            if (categoryId <= 0)
-            {
-                return BadRequest("Invalid category id");
-            }
-            
             return Ok(ticketsService.GetNotClosed(categoryId));
         }
         
-        [HttpGet]
+        [HttpGet("get-user-tickets/{userId}")]
         [Route("get-user-tickets")]
-        public IActionResult GetUserTickets(int userId)
+        public IActionResult GetUserTickets([FromRoute] int userId)
         {
             if (userId <= 0)
             {

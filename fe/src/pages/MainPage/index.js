@@ -44,7 +44,7 @@ function MainPage() {
         setIsWorkersLoading(true);
         const workers = await getWorkers(filterId);
         const isStringContainTargetKeys = isStringContainSomeKey(targetKeys);
-        const filteredWorkers = workers.filter(worker => isStringContainTargetKeys(worker.desctiption));
+        const filteredWorkers = workers.filter(worker => isStringContainTargetKeys(worker.description));
         setWorkers(targetKeys.length ? filteredWorkers : workers);
         setIsWorkersLoading(false);
       }
@@ -78,7 +78,7 @@ function MainPage() {
                 rating={worker.rating}
                 isRatingDisabled={true}
                 label={texts[worker.category.name]}
-                desctiption={worker.desctiption}
+                description={worker.description}
                 mainButtonTitle={texts.viewDetails}
                 onMainButtonClick={() => onCardViewDetailsClick(worker.id)}
               />

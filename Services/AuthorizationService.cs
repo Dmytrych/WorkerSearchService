@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using WorkerSearchApp.Domain.Repositories;
 using WorkerSearchApp.Dto;
 
@@ -17,20 +18,20 @@ namespace WorkerSearchApp.Services
         
         public (User User, ClaimsIdentity Identity) Login(string email, string password)
         {
-            var user = userRepository.GetUser(email, password.GetHashCode().ToString());
+            var user = userRepository.GetUser(email, GetHash(password));
             return user == null ? (null, null) : (user, GetIdentity(user));
         }
 
         public (User User, ClaimsIdentity Identity) Register(User user, string password)
         {
-            if (!IsUserValid(user, password) || userRepository.GetAllUsers().FirstOrDefault(u => u.Email == user.Email) != null)
+            if (!IsUserValid(user, password) || userRepository.GetAllUsers().Any(u => u.Email == user.Email))
             {
                 return (null, null);
             }
 
             user.Rating = 5.0;
 
-            var registeredUser = userRepository.AddUser(user, password.GetHashCode().ToString());
+            var registeredUser = userRepository.AddUser(user, GetHash(password));
             return user == null ? (null, null) : (registeredUser, GetIdentity(registeredUser));
         }
 
@@ -55,8 +56,7 @@ namespace WorkerSearchApp.Services
         private bool IsUserValid(User user, string password)
             => !IsNullOrEmptyOrWhitespace(user.Name)
                && !IsNullOrEmptyOrWhitespace(user.Email)
-               && !IsNullOrEmptyOrWhitespace(password)
-               && !IsNullOrEmptyOrWhitespace(user.Surname);
+               && !IsNullOrEmptyOrWhitespace(password);
 
         private bool IsNullOrEmptyOrWhitespace(string value)
             => string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value);
@@ -70,5 +70,8 @@ namespace WorkerSearchApp.Services
                 
             return new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
         }
+
+        private string GetHash(string str)
+            => System.Text.Encoding.Default.GetString(MD5.HashData(System.Text.Encoding.Default.GetBytes(str)));
     }
 }

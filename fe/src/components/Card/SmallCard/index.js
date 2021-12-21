@@ -8,7 +8,7 @@ import { SMALL_SIZE } from 'constants/index';
 
 import './style.css';
 
-function SmallCard({ id, title, subtitle, label, rating, isRatingDisabled, onRatingChange, desctiption, disabled, mainButtonTitle, onMainButtonClick = noop, secondaryButtonTitle, onSecondaryButtonClick = noop }) {
+function SmallCard({ id, title, subtitle, label, rating, isRatingDisabled, onRatingChange, description, disabled, mainButtonTitle, onMainButtonClick = noop, secondaryButtonTitle, onSecondaryButtonClick = noop }) {
     return (
         <div className='card-container , card-container-small'>
             <h3 className="card-title">{title}</h3>
@@ -21,7 +21,7 @@ function SmallCard({ id, title, subtitle, label, rating, isRatingDisabled, onRat
                 <p>{label}</p>
             </div>
             <Spacer size={15} />
-            <p className='card-desctiption-small'>{desctiption}</p>
+            {description && <p className='card-description-small'>{description}</p>}
             <Spacer size={15} />
             {!!rating && 
                 <div className="flex-container-row main-axis-start">

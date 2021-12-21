@@ -11,9 +11,9 @@ namespace WorkerSearchApp.Domain
             Database.EnsureCreated();
             if (!Categories.Any())
             {
-                Categories.Add(new CategoryEntity {Name = "Plumbing"});
-                Categories.Add(new CategoryEntity {Name = "Cleaning"});
-                Categories.Add(new CategoryEntity {Name = "Cooking"});
+                Categories.Add(new CategoryEntity {Name = "plumbing"});
+                Categories.Add(new CategoryEntity {Name = "cleaning"});
+                Categories.Add(new CategoryEntity {Name = "equipmentRepair"});
                 SaveChanges();
             }
         }

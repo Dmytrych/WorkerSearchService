@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WorkerSearchApp.Dto;
@@ -9,6 +10,7 @@ using WorkerSearchApp.Services;
 
 namespace WorkerSearchApp.Controllers
 {
+    [EnableCors("AllowAll")]
     [Route("[controller]")]
     public class UserApiController : Controller
     {
@@ -21,7 +23,7 @@ namespace WorkerSearchApp.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IActionResult Login(LoginCredentialsClientDto credentials)
+        public IActionResult Login([FromBody] LoginCredentialsClientDto credentials)
         {
             var userInfo = authorizationService.Login(credentials.Login, credentials.Password);
 
@@ -58,12 +60,12 @@ namespace WorkerSearchApp.Controllers
             }
             
             authorizationService.Rate(rating, userId);
-            return Ok();
+            return Ok(new { Message = "Success"});
         }
         
-        [HttpPost]
+        [HttpGet("get-user/{userId}")]
         [Route("get-user")]
-        public IActionResult GetUser(int userId)
+        public IActionResult GetUser([FromRoute] int userId)
         {
             var user = authorizationService.Get(userId);
 
@@ -99,7 +101,8 @@ namespace WorkerSearchApp.Controllers
             {
                 Email = credentialsClientDto?.Email,
                 Name = credentialsClientDto?.Name,
-                Surname = credentialsClientDto?.Surname
+                Surname = credentialsClientDto?.Surname,
+                PhoneNumber = credentialsClientDto?.PhoneNumber
             };
 
         [HttpGet]

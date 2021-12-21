@@ -1,7 +1,7 @@
 import { get, post } from './config';
 
 export const getCategories = () => {
-    const path = 'CategoryApi/get';
+    const path = `CategoryApi/get-all`;
     return get(path);
 };
 
@@ -15,18 +15,18 @@ export const getWorker = id => {
     return get(path);
 };
 
-export const getCreatedOrders = () => {
-    const path = 'OrdersApi/get-placed';
+export const getCreatedOrders = userId => {
+    const path = `OrdersApi/get-placed/${userId}`;
     return get(path);
 };
 
-export const getRecievedOrders = () => {
-    const path = 'OrdersApi/get-assigned';
+export const getRecievedOrders = userId => {
+    const path = `OrdersApi/get-assigned/${userId}`;
     return get(path);
 };
 
 export const removeOrder = id => {
-    const path = 'OrdersApi/remove';
+    const path = 'OrdersApi/close';
     return post(path, id);
 };
 
@@ -37,12 +37,12 @@ export const closeOrder = id => {
 
 export const login = (email, password) => {
     const path = 'UserApi/login';
-    return post(path, { email, password });
+    return post(path, { login: email, password: password });
 };
 
 export const register = ({ name, email, phoneNumber, password }) => {
     const path = 'UserApi/register';
-    return post(path, { name, email, phoneNumber, password });
+    return post(path, { name: name, email: email, phoneNumber: phoneNumber, password: password });
 };
 
 export const getTickets = userId => {
@@ -50,9 +50,9 @@ export const getTickets = userId => {
     return get(path);
 };
 
-export const addTicket = ({ userId, price, category, descriprion }) => {
+export const addTicket = ({ userId, price, categoryId, description, name}) => {
     const path = 'TicketsApi/add';
-    return post(path, { userId, price, category, descriprion });
+    return post(path, { name: name, userId: userId, price: price, categoryId: categoryId, description: description });
 };
 
 export const updateRating = ({ id, rating }) => {
@@ -65,8 +65,8 @@ export const getUser = ({ id }) => {
     return get(path);
 };
 
-export const getRecievedOrdersWithUsers = (async () => {
-    const recievedOrders = await getRecievedOrders();
+export const getRecievedOrdersWithUsers = (async userId => {
+    const recievedOrders = await getRecievedOrders(userId);
     const recievedOrdersWithUsers = await Promise.all(recievedOrders.map(async order => {
         const user = await getUser({ id: order.orderedById });
         return {
@@ -76,3 +76,8 @@ export const getRecievedOrdersWithUsers = (async () => {
     }));
     return recievedOrdersWithUsers;
 });
+
+export const order = ({ orderedById, ticketId, phoneNumber }) => {
+    const path = `OrdersApi/add`;
+    return post(path, { orderedById, ticketId, phoneNumber });
+}

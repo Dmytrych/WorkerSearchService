@@ -8,7 +8,7 @@ namespace WorkerSearchApp.Services
     {
         TicketInfoResponseDto Get(int ticketId);
 
-        IReadOnlyCollection<TicketInfoResponseDto> GetNotClosed(int categoryId);
+        IReadOnlyCollection<TicketInfoResponseDto> GetNotClosed(int? categoryId);
 
         IReadOnlyCollection<TicketInfoResponseDto> GetAll(int userId);
 

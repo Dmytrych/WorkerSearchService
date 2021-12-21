@@ -17,8 +17,8 @@ function Navigation() {
             <div className="flex-container-row">
                 <Link to='/' className="link"><p>{texts.mainPage}</p></Link>
                 {!user && <Link to='/auth' className="link"><p>{texts.authpage}</p></Link>}
-                <Link to='/orders' className="link"><p>{texts.orders}</p></Link>
-                <Link to='/tickets' className="link"><p>{texts.tickets}</p></Link>
+                {user && <Link to='/orders' className="link"><p>{texts.orders}</p></Link>}
+                {user && <Link to='/tickets' className="link"><p>{texts.tickets}</p></Link>}
             </div>
             <div className="flex-container-row">
                 <SecondaryButton 

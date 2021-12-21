@@ -1,5 +1,6 @@
 export const SMALL_SIZE = 'small';
 export const LARGE_SIZE = 'large';
+export const EXTRA_SMALL_SIZE = 'extra_small';
 
 export const RATINGS = {
     ONE: 1,

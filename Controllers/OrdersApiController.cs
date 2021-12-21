@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WorkerSearchApp.Dto;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using WorkerSearchApp.Dto.Client;
 using WorkerSearchApp.Services;
 
 namespace WorkerSearchApp.Controllers
 {
+    [EnableCors("AllowAll")]
     [Route("[controller]")]
     public class OrdersApiController : Controller
     {
@@ -23,14 +24,14 @@ namespace WorkerSearchApp.Controllers
             return order != null ? Ok(order) : BadRequest("Order not found");
         }
 
-        [HttpGet]
+        [HttpGet("get-assigned/{userId}")]
         [Route("get-assigned")]
-        public IActionResult GetAssignedOrders(int userId)
+        public IActionResult GetAssignedOrders([FromRoute] int userId)
             => Ok(ordersService.GetAssignedOrders(userId));
 
-        [HttpGet]
+        [HttpGet("get-placed/{userId}")]
         [Route("get-placed")]
-        public IActionResult GetPlacedOrders(int userId)
+        public IActionResult GetPlacedOrders([FromRoute] int userId)
             => Ok(ordersService.GetPlacedOrders(userId));
 
         [HttpPost]
@@ -54,7 +55,7 @@ namespace WorkerSearchApp.Controllers
 
         [HttpPost]
         [Route("close")]
-        public IActionResult Close(int orderId)
+        public IActionResult Close([FromBody] int orderId)
         {
             var closedOrder = ordersService.Close(orderId);
 

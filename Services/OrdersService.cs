@@ -8,11 +8,13 @@ namespace WorkerSearchApp.Services
 {
     public class OrdersService : IOrdersService
     {
-        private IOrdersRepository ordersRepository;
+        private readonly IOrdersRepository ordersRepository;
+        private readonly IUserRepository userRepository;
         
-        public OrdersService(IOrdersRepository ordersRepository)
+        public OrdersService(IOrdersRepository ordersRepository, IUserRepository userRepository)
         {
             this.ordersRepository = ordersRepository;
+            this.userRepository = userRepository;
         }
 
         public OrderInfoResponseDto Get(int orderId)
@@ -41,7 +43,8 @@ namespace WorkerSearchApp.Services
                 Name = order.Name,
                 OrderedById = order.OrderedById,
                 PhoneNumber = order.PhoneNumber,
-                TicketId = order.TicketId
+                TicketId = order.TicketId,
+                OrderedBy = userRepository.GetUser(order.OrderedById)
             };
         
         private Order ToServerDto(OrderInfoResponseDto order)

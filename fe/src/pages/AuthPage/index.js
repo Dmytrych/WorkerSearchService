@@ -74,10 +74,17 @@ function AuthPage() {
         setAsyncState(error(''));
         setAsyncState(loading(true));
 
-        await register({ name, email, phoneNumber, password });
+        var user = await register({ name, email, phoneNumber, password });
+
+        if(user){
+          setAsyncState(success(texts.signInSuccess));
+        }
+        else{
+          setAsyncState(error("Some of the fields were invalid"));
+        }
 
         setAsyncState(loading(false));
-        setAsyncState(success(texts.signInSuccess));
+        setAsyncState(init(false));
       }
     }
     fetchData();
@@ -95,11 +102,16 @@ function AuthPage() {
         setAsyncState(loading(true));
 
         const user = await login(email, password);
-        setUser(user);
-        localStorage.setItem('token', user);
 
+        if(user){
+          setUser(user.user);
+          localStorage.setItem('token', user.accessToken);
+
+          setAsyncState(success(texts.signInSuccess));
+        } else{
+          setAsyncState(error("Invalid username or password."));
+        }
         setAsyncState(loading(false));
-        setAsyncState(success(texts.signInSuccess));
         setAsyncState(init(false));
       }
     };

@@ -8,6 +8,8 @@
         
         public int OrderedById { get; set; }
         
+        public User OrderedBy { get; set; }
+        
         public int TicketId { get; set; }
         
         public string PhoneNumber { get; set; }

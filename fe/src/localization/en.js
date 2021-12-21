@@ -37,7 +37,7 @@ export const en = {
     create: 'Create',
     createTicketSuccess: 'Ticket successfully published',
     category: 'Type of service',
-    descriprion: 'Descriprion',
+    description: 'Description',
     reset: 'Reset',
     phoneNumberPlaceholder: 'Phone number',
     invalidEmail: 'Email is invalid',

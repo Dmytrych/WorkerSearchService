@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from "react-router";
 
 import { getTickets, addTicket, getCategories } from 'api';
-import { getDefaultAsyncState, init, loading, success } from 'utils';
+import { getDefaultAsyncState, init, loading, success, error } from 'utils';
 import Card from 'components/Card';
 import Spacer from 'components/Spacer';
 import Loader from 'components/Loader';
@@ -22,14 +22,14 @@ function TicketsPage() {
 
     const [ price, setPrice ] = useState('');
     const [ category, setCategory ] = useState('');
-    const [ descriprion, setDescriprion ] = useState('');
+    const [ description, setDescription ] = useState('');
 
     const onAddClick = () => setAddTicketAsyncState(init(true));
     const onResetClick = () => {
         setAddTicketAsyncState(getDefaultAsyncState());
         setPrice('');
         setCategory('');
-        setDescriprion('');
+        setDescription('');
     };
     const onCardViewDetailsClick = ticketId => navigate(`/ticket/${ticketId}`);
 
@@ -37,7 +37,7 @@ function TicketsPage() {
         async function fetchData() {
             setTicketsAsyncState(loading(true));
 
-            const tickets = await getTickets();
+            const tickets = await getTickets(user.id);
             const categories = await getCategories();
 
             setTickets(tickets);
@@ -54,14 +54,20 @@ function TicketsPage() {
                 setTicketsAsyncState(loading(true));
                 setAddTicketAsyncState(loading(true));
                 
-                await addTicket({ userId: user.id, name, price, category, descriprion });
-                const tickets = await getTickets(user.id);
+                var ticket = await addTicket({ userId: user.id, name, price, categoryId: category, description: description });
 
-                setTickets(tickets);
+                if(ticket){
+                    const tickets = await getTickets(user.id);
+
+                    setTickets(tickets);
+                    setTicketsAsyncState(success(true));
+                    setAddTicketAsyncState(success(true));
+                }
+                else{
+                    setAddTicketAsyncState(error("Some fields were not filled correctly"));
+                }
                 setTicketsAsyncState(loading(false));
                 setAddTicketAsyncState(loading(false));
-                setTicketsAsyncState(success(true));
-                setAddTicketAsyncState(success(true));
             }
             setAddTicketAsyncState(init(false));
         }
@@ -81,8 +87,8 @@ function TicketsPage() {
                 category={category}
                 categories={categories}
                 onCategoryChange={setCategory}
-                descriprion={descriprion}
-                onDescriptionChange={setDescriprion}
+                description={description}
+                onDescriptionChange={setDescription}
                 onAddClick={onAddClick}
                 onResetClick={onResetClick}
                 isLoading={addTicketAsyncState.loading}
@@ -91,18 +97,18 @@ function TicketsPage() {
         </div>
         <Spacer size={30} />
         <div className="flex-container-column cross-axis-center">
-            {!ticketsAsyncState.loading && ticketsAsyncState.success && tickets.length && <h2>{texts.ticketsList}</h2>}
+            {!ticketsAsyncState.loading && ticketsAsyncState.success && !!tickets.length && <h2>{texts.ticketsList}</h2>}
             {ticketsAsyncState.loading && <Loader />}
         </div>
         <div className="list-container">
-        {!ticketsAsyncState.loading && ticketsAsyncState.success && tickets.length &&
+        {!ticketsAsyncState.loading && ticketsAsyncState.success && !!tickets.length &&
             tickets.map(ticket => 
                 <SmallCard
                     key={ticket.id}
                     title={ticket.name}
                     subtitle={`${texts.price} ${ticket.price}$`}
                     label={texts[ticket.category.name]}
-                    desctiption={ticket.desctiption}
+                    description={ticket.description}
                     mainButtonTitle={texts.viewDetails}
                     onMainButtonClick={() => onCardViewDetailsClick(ticket.id)}
                 />

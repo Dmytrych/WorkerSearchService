@@ -8,7 +8,7 @@ import './style.css';
 function Filter({ selectedValueId = '', values = [], onTipClick = noop }) {
     return (
       <div className="search-tips">
-        {values.map(value => <Tip value={value.id} label={texts[value.name]} onClick={onTipClick} isSelected={selectedValueId === value.id} />)}
+        {values.map(value => <Tip key={value.id} value={value.id} label={texts[value.name]} onClick={onTipClick} isSelected={selectedValueId === value.id} />)}
       </div>
     );
   }

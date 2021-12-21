@@ -5,7 +5,7 @@ namespace WorkerSearchApp.Domain.Repositories
 {
     public interface ITicketsRepository
     {
-        IReadOnlyCollection<Ticket> GetNotClosed(int categoryId);
+        IReadOnlyCollection<Ticket> GetNotClosed(int? categoryId);
 
         public IReadOnlyCollection<Ticket> GetAll(int userId);
 

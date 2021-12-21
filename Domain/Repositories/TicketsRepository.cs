@@ -20,11 +20,17 @@ namespace WorkerSearchApp.Domain.Repositories
             return ticket != null ? ToServerDto(ticket) : null;
         }
 
-        public IReadOnlyCollection<Ticket> GetNotClosed(int categoryId)
-            => dbContext.Tickets
-                .Where(t => t.CategoryId == categoryId && !t.Closed)
-                .Select(ToServerDto)
-                .ToList();
+        public IReadOnlyCollection<Ticket> GetNotClosed(int? categoryId)
+        {
+            IQueryable<TicketEntity> tickets = dbContext.Tickets;
+
+            if (categoryId != null)
+            {
+                tickets = tickets.Where(t => t.CategoryId == categoryId && !t.Closed);
+            }
+            
+            return tickets.Select(ToServerDto).ToList();
+        }
         
         public IReadOnlyCollection<Ticket> GetAll(int userId)
             => dbContext.Tickets

@@ -12,6 +12,8 @@
         
         public double Rating { get; set; }
         
+        public string PhoneNumber { get; set; }
+        
         public int Rated { get; set; }
     }
 }

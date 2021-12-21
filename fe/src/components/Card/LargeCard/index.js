@@ -7,7 +7,7 @@ import { noop } from 'utils';
 
 import './style.css';
 
-function LargeCard({ id, title, subtitle, label, rating, isRatingDisabled, onRatingChange, desctiption, disabled, mainButtonTitle, onMainButtonClick = noop, secondaryButtonTitle, onSecondaryButtonClick = noop }) {
+function LargeCard({ id, title, subtitle, label, rating, isRatingDisabled, onRatingChange, description, disabled, isMainButtonAvailable, mainButtonTitle, onMainButtonClick = noop, secondaryButtonTitle, onSecondaryButtonClick = noop }) {
     return (
         <div className='card-container card-container-big'>
             <h1 className="card-title">{title}</h1>
@@ -20,7 +20,7 @@ function LargeCard({ id, title, subtitle, label, rating, isRatingDisabled, onRat
                 <p>{label}</p>
             </div>
             <Spacer size={15} />
-            <p className='card-desctiption-big'>{desctiption}</p>
+            <p className='card-description-big'>{description}</p>
             <Spacer size={25} />
             {!!rating && 
                 <div className="flex-container-row main-axis-start">
@@ -30,7 +30,7 @@ function LargeCard({ id, title, subtitle, label, rating, isRatingDisabled, onRat
             <Spacer size={25} />
             <div className="flex-container-row main-axis-end">
                 {secondaryButtonTitle && <SecondaryButton placeholder={secondaryButtonTitle} onClick={onSecondaryButtonClick} disabled={disabled} />}
-                {mainButtonTitle && <MainButton placeholder={mainButtonTitle} onClick={onMainButtonClick} />}
+                {mainButtonTitle && <MainButton placeholder={mainButtonTitle} onClick={onMainButtonClick} visible={isMainButtonAvailable} />}
             </div>
         </div>
     );

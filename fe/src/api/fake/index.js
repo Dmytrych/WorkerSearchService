@@ -42,8 +42,8 @@ export const getTickets = () => {
     return delay(tickets);
 };
 
-export const addTicket = ({ userId, price, category, descriprion }) => {
-    return delay({ userId, price, category, descriprion });
+export const addTicket = ({ userId, price, category, description }) => {
+    return delay({ userId, price, category, description });
 };
 
 export const updateRating = ({ id, rating }) => {

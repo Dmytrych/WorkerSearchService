@@ -8,6 +8,7 @@ export async function get(path = '', data = {}) {
       method: 'GET',
       headers,
       responseType,
+      mode: 'cors'
     });
     return response.json();
 };
@@ -18,6 +19,7 @@ export async function put(path = '', data = {}) {
       headers,
       responseType,
       body: JSON.stringify(data),
+      mode: 'cors'
     });
     return response.json();
 };
@@ -28,6 +30,8 @@ export async function post(path = '', data = {}) {
       headers,
       responseType,
       body: JSON.stringify(data),
+      mode: 'cors'
     });
+
     return response.json();
 };

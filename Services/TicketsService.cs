@@ -26,29 +26,38 @@ namespace WorkerSearchApp.Services
             return notClosedTickets == null ? null : ToResponseDto(notClosedTickets);
         }
 
-        public IReadOnlyCollection<TicketInfoResponseDto> GetNotClosed(int categoryId)
+        public IReadOnlyCollection<TicketInfoResponseDto> GetNotClosed(int? categoryId)
         {
             var notClosedTickets = ticketsRepository.GetNotClosed(categoryId);
 
-            return !notClosedTickets.Any() ? null : ToResponseCollection(notClosedTickets);
+            return notClosedTickets != null ? ToResponseCollection(notClosedTickets) : null;
         }
 
         public IReadOnlyCollection<TicketInfoResponseDto> GetAll(int userId)
         {
             var tickets = ticketsRepository.GetAll(userId);
             
-            return !tickets.Any() ? null : ToResponseCollection(tickets);
+            return tickets != null ? ToResponseCollection(tickets) : null;
         }
 
         public TicketInfoResponseDto Add(TicketInfoRequestDto ticket)
         {
-            if (string.IsNullOrEmpty(ticket.Description) 
+            if (string.IsNullOrEmpty(ticket.Description.Trim()) 
+                || string.IsNullOrEmpty(ticket.Name.Trim())
                 || ticket.CategoryId <= 0 
-                || string.IsNullOrEmpty(ticket.PhoneNumber)
                 || ticket.UserId <= 0)
             {
                 return null;
             }
+
+            var user = userRepository.GetUser(ticket.UserId);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            ticket.PhoneNumber = user.PhoneNumber;
 
             var addedTicket = ticketsRepository.Add(ToServerDto(ticket));
 

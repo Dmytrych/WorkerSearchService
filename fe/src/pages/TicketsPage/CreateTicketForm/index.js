@@ -17,7 +17,7 @@ function CreateTicketForm({
     category,
     categories = [],
     onCategoryChange = noop,
-    descriprion, 
+    description, 
     onDescriptionChange = noop,
     onAddClick = noop,
     onResetClick = noop,
@@ -49,8 +49,8 @@ function CreateTicketForm({
                 onChange={onCategoryChange}
             />
             <TextareaInput
-                placeholder={texts.descriprion}
-                value={descriprion}
+                placeholder={texts.description}
+                value={description}
                 onChange={onDescriptionChange}
             />
             <Spacer size={20} />

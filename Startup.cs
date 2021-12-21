@@ -32,6 +32,18 @@ namespace WorkerSearchApp
                         ValidateIssuerSigningKey = true
                     };
                 });
+            
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyOrigin() 
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
 
             services.AddScoped<IDatabaseContext, SqlDbContext>();
             services.AddTransient<IUserRepository, UserRepository>();
@@ -45,7 +57,6 @@ namespace WorkerSearchApp
 
             services.AddAuthorization();
             services.AddControllers();
-            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +66,7 @@ namespace WorkerSearchApp
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
             
@@ -64,8 +75,11 @@ namespace WorkerSearchApp
             app.UseAuthentication();
             app.UseAuthorization();
             
-            app.UseCors(builder => builder.AllowAnyOrigin());
-            
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true));
+
             app.UseCookiePolicy(new CookiePolicyOptions
             {
                 MinimumSameSitePolicy = SameSiteMode.Strict,
